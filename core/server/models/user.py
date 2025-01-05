@@ -1,13 +1,19 @@
+from typing import TypeVar
+
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
 from django.utils import timezone
 
 from core.server.utils import ImageUtils
 
+from .base import BaseManager
 
-class UserManager(BaseUserManager):
+T = TypeVar("T", bound="User")
 
-    def create_user(self, name: str, email: str, password: str, **extra_fields) -> AbstractBaseUser:
+
+class UserManager(BaseUserManager, BaseManager[T]):
+
+    def create_user(self, name: str, email: str, password: str, **extra_fields) -> T:
         if name is None or name == "":
             raise ValueError("User must have a name.")
 
@@ -27,7 +33,7 @@ class UserManager(BaseUserManager):
 
         return user
 
-    def create_superuser(self, name: str, email: str, password: str, **extra_fields) -> AbstractBaseUser:
+    def create_superuser(self, name: str, email: str, password: str, **extra_fields) -> T:
         if name != "admin":
             raise ValueError("Only 1 superuser can exists.")
 
@@ -56,7 +62,7 @@ class User(AbstractBaseUser):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["name"]
 
-    objects: UserManager = UserManager()
+    objects: UserManager["User"] = UserManager()
 
     def __str__(self) -> str:
         return self.email
@@ -71,7 +77,7 @@ class User(AbstractBaseUser):
     def has_module_perms(self, app_label: str) -> bool:
         return self.is_staff
 
-    def delete(self, *args, **kwargs) -> tuple[int, dict[str, int]]:
+    def delete(self, *args, **kwargs) -> tuple[int, dict]:
         if "static" not in self.image.name:
             ImageUtils.remove_image_from(self.image.path)
 
