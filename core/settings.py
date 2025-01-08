@@ -17,7 +17,7 @@ SECRET_KEY = config("DJANGO_SECRET_KEY")
 
 DEBUG = config("DJANGO_DEBUG", default=False, cast=bool)
 
-ALLOWED_HOSTS = config("DJANGO_ALLOWED_HOSTS", default="", cast=Csv())
+ALLOWED_HOSTS = config("DJANGO_ALLOWED_HOSTS", default=[], cast=Csv())
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -26,12 +26,15 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "corsheaders",
+    "rest_framework",
     "core.server",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -87,6 +90,12 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+
+CSRF_TRUSTED_ORIGINS = config("DJANGO_ALLOWED_ORIGINS", default=[], cast=Csv())
+
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOWED_ORIGINS = config("DJANGO_ALLOWED_ORIGINS", default=[], cast=Csv())
 
 REST_FRAMEWORK = {
     "EXCEPTION_HANDLER": "core.server.exceptions.api_exception_handler",
