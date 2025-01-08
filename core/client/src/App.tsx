@@ -5,9 +5,12 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
-import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
+import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
 
+import Authorization from '@/pages/Authorization';
 import Home from '@/pages/Home';
+import Registration from '@/pages/Registration';
+import AuthProvider, { AuthorizedRoutes, GuestRoutes } from '@/providers/auth';
 
 const theme = createTheme({
   palette: {
@@ -20,10 +23,18 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+        <AuthProvider>
+          <Routes>
+            <Route element={<GuestRoutes />}>
+              <Route path="/sign-in" element={<Authorization />} />
+              <Route path="/sign-up" element={<Registration />} />
+            </Route>
+            <Route element={<AuthorizedRoutes />}>
+              <Route path="/" element={<Home />} />
+            </Route>
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </ThemeProvider>
   );
