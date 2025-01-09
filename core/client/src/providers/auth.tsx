@@ -6,9 +6,12 @@ import { AxiosError, AxiosResponse } from 'axios';
 
 import { getCookie, removeCookie } from 'typescript-cookie';
 
+import { Box } from '@mui/material';
+
 import { useAxios } from '@/api/axios';
 import { ENDPOINTS } from '@/api/endpoints';
 import { ErrorData, ErrorHandler, handleErrors } from '@/api/errors';
+import Navbar from '@/components/Navbar';
 import { AuthContext, useAuth } from '@/hooks/auth';
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -95,7 +98,14 @@ export const GuestRoutes = () => {
 
 export const AuthorizedRoutes = () => {
   const { token, user } = useAuth();
-  return token && user ? <Outlet /> : <Navigate to="/sign-in" replace />;
+  return token && user ? (
+    <Box>
+      <Navbar />
+      <Outlet />
+    </Box>
+  ) : (
+    <Navigate to="/sign-in" replace />
+  );
 };
 
 export default AuthProvider;
