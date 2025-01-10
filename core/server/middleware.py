@@ -1,6 +1,7 @@
 from typing import Callable
 
 from django.http import HttpRequest, HttpResponse
+from rest_framework import status
 from rest_framework.utils.serializer_helpers import ReturnDict
 from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework_simplejwt.serializers import TokenRefreshSerializer, TokenVerifySerializer
@@ -14,7 +15,7 @@ class AuthorizationMiddleware:
         self.get_response = get_response
 
     def __call__(self, request: HttpRequest) -> HttpResponse:
-        if request.path in ["/api/sign-in/", "/api/sign-up/"]:
+        if request.path in ("/api/sign-in/", "/api/sign-up/"):
             return self.get_response(request)
 
         auth = request.META.get("HTTP_AUTHORIZATION")
@@ -33,7 +34,12 @@ class AuthorizationMiddleware:
             refresh = request.COOKIES.get("refresh_token")
 
             if refresh is None:
-                return self.get_response(request)
+                response = self.get_response(request)
+
+                if response.status_code in (status.HTTP_401_UNAUTHORIZED, status.HTTP_403_FORBIDDEN):
+                    AuthorizationUtils.remove_access_cookie(response)
+
+                return response
 
             data = {
                 "refresh": refresh
