@@ -38,14 +38,13 @@ instance.interceptors.response.use(
   async (response: AxiosResponse) => response,
   async (error: AxiosError) => {
     if (
-      getCookie('access_token') &&
       secureLocalStorage.getItem('user') &&
       (error.response?.status === HttpStatusCode.Unauthorized ||
         error.response?.status === HttpStatusCode.Forbidden)
     ) {
       removeCookie('access_token');
       secureLocalStorage.removeItem('user');
-      window.location.reload();
+      window.location.replace('/sign-in');
     }
     return Promise.reject(error);
   }
