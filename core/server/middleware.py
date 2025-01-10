@@ -14,12 +14,12 @@ class AuthorizationMiddleware:
         self.get_response = get_response
 
     def __call__(self, request: HttpRequest) -> HttpResponse:
-        auth = request.META.get("HTTP_AUTHORIZATION")
-
-        if auth is None:
+        if request.path in ["/api/sign-in/", "/api/sign-up/"]:
             return self.get_response(request)
 
-        access = auth.split(" ")[1]
+        auth = request.META.get("HTTP_AUTHORIZATION")
+
+        access = "Invalid" if auth is None else auth.split(" ")[1]
 
         data = {
             "token": access
