@@ -4,7 +4,7 @@ import secureLocalStorage from 'react-secure-storage';
 
 import { AxiosError, AxiosResponse } from 'axios';
 
-import { getCookie, removeCookie } from 'typescript-cookie';
+import { removeCookie } from 'typescript-cookie';
 
 import { Box } from '@mui/material';
 
@@ -17,9 +17,6 @@ import { AuthContext, useAuth } from '@/hooks/auth';
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
 
-  const [token, setToken] = useState<string | undefined>(
-    getCookie('access_token')
-  );
   const [user, setUser] = useState<model.User | null>(
     secureLocalStorage.getItem('user') as model.User
   );
@@ -41,7 +38,6 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         method: 'POST',
         data,
       });
-      setToken(response.data.access);
       secureLocalStorage.setItem('user', response.data.user);
       setUser(response.data.user);
     } catch (err) {
@@ -74,14 +70,12 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   const logout = () => {
     removeCookie('access_token');
     secureLocalStorage.removeItem('user');
-    setToken(undefined);
     setUser(null);
     navigate('/sign-in', { replace: true });
   };
 
   const value = {
     loading,
-    token,
     user,
     login,
     register,
@@ -92,13 +86,13 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 };
 
 export const GuestRoutes = () => {
-  const { token, user } = useAuth();
-  return !token || !user ? <Outlet /> : <Navigate to="/" replace />;
+  const { user } = useAuth();
+  return !user ? <Outlet /> : <Navigate to="/" replace />;
 };
 
 export const AuthorizedRoutes = () => {
-  const { token, user } = useAuth();
-  return token && user ? (
+  const { user } = useAuth();
+  return user ? (
     <Box>
       <Navbar />
       <Outlet />

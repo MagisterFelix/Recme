@@ -4,7 +4,6 @@ import { ErrorHandler } from '@/api/errors';
 
 export const AuthContext = createContext<{
   loading?: boolean;
-  token: string | undefined;
   user: model.User | null;
   login?: (
     data: request.Authorization,
@@ -16,7 +15,6 @@ export const AuthContext = createContext<{
   ) => Promise<void>;
   logout?: () => void;
 }>({
-  token: undefined,
   user: null,
 });
 
