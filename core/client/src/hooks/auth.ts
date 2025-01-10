@@ -5,6 +5,7 @@ import { ErrorHandler } from '@/api/errors';
 export const AuthContext = createContext<{
   loading?: boolean;
   user: model.User | null;
+  updateUser?: (user: model.User) => void;
   login?: (
     data: request.Authorization,
     errorHandler: ErrorHandler

@@ -28,6 +28,11 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   );
 
+  const updateUser = (user: model.User) => {
+    secureLocalStorage.setItem('user', user);
+    setUser(user);
+  };
+
   const login = async (
     data: request.Authorization,
     errorHandler: ErrorHandler
@@ -38,8 +43,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         method: 'POST',
         data,
       });
-      secureLocalStorage.setItem('user', response.data.user);
-      setUser(response.data.user);
+      updateUser(response.data.user);
     } catch (err) {
       const error = (err as AxiosError).response?.data as ErrorData;
       handleErrors(error.details, errorHandler);
@@ -77,6 +81,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   const value = {
     loading,
     user,
+    updateUser,
     login,
     register,
     logout,

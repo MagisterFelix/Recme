@@ -17,6 +17,15 @@ declare global {
       email: string;
       password: string;
     }
+    interface UserUpdating {
+      name: string;
+      email: string;
+      image: string;
+    }
+    interface PasswordChanging {
+      password: string;
+      new_password: string;
+    }
   }
   namespace response {
     interface Authorization {

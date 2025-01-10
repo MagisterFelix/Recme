@@ -9,6 +9,7 @@ import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
 
 import Authorization from '@/pages/Authorization';
 import Home from '@/pages/Home';
+import Profile from '@/pages/Profile';
 import Registration from '@/pages/Registration';
 import AuthProvider, { AuthorizedRoutes, GuestRoutes } from '@/providers/auth';
 
@@ -31,6 +32,7 @@ const App = () => {
             </Route>
             <Route element={<AuthorizedRoutes />}>
               <Route path="/" element={<Home />} />
+              <Route path="/profile" element={<Profile />} />
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
