@@ -45,7 +45,7 @@ class User(AbstractBaseUser):
     DEFAULT_AVATAR_PATH = "../static/avatar-default-light.svg"
 
     def upload_image_to(self, filename: str) -> str:
-        name = self.email.split("@")[0]
+        name = f"user-{self.pk}"
         folder, title = "users", f"{name}-{int(timezone.now().timestamp())}"
 
         return ImageUtils.upload_image_to(filename, name, folder, title)
