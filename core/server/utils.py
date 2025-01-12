@@ -1,4 +1,5 @@
 import os
+import uuid
 
 import jwt
 from django.conf import settings
@@ -7,6 +8,8 @@ from django.db.models.fields.files import FieldFile
 from django.http import HttpResponse
 from django.utils import timezone
 from jwt.exceptions import InvalidTokenError
+
+from core.server.models.base import BaseModel
 
 
 class ImageUtils:
@@ -20,7 +23,10 @@ class ImageUtils:
             raise ValidationError("Uploaded file either not an image or a corrupted image.")
 
     @staticmethod
-    def upload_image_to(filename: str, name: str, folder: str, title: str) -> str:
+    def upload_image_to(instance: BaseModel, filename: str) -> str:
+        name = f"{instance.__class__.__name__.lower()}-{uuid.uuid4()}"
+        folder, title = instance._meta.db_table.lower(), f"{name}-{int(timezone.now().timestamp())}"
+
         directory = os.path.join(settings.MEDIA_ROOT, f"{folder}")
 
         if not os.path.exists(directory):

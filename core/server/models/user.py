@@ -2,7 +2,6 @@ from typing import TypeVar
 
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
-from django.utils import timezone
 
 from core.server.utils import ImageUtils
 
@@ -44,17 +43,11 @@ class User(AbstractBaseUser):
 
     DEFAULT_AVATAR_PATH = "../static/avatar-default-light.svg"
 
-    def upload_image_to(self, filename: str) -> str:
-        name = f"user-{self.pk}"
-        folder, title = "users", f"{name}-{int(timezone.now().timestamp())}"
-
-        return ImageUtils.upload_image_to(filename, name, folder, title)
-
     name = models.CharField(max_length=150, blank=False, null=False)
     email = models.EmailField(max_length=150, unique=True, blank=False, null=False)
     image = models.FileField(
         default=DEFAULT_AVATAR_PATH,
-        upload_to=upload_image_to,
+        upload_to=ImageUtils.upload_image_to,
         validators=[ImageUtils.validate_image_file_extension]
     )
 
@@ -77,6 +70,15 @@ class User(AbstractBaseUser):
     def has_module_perms(self, app_label: str) -> bool:
         return self.is_staff
 
+    def save(self, *args, **kwargs) -> None:
+        if self.pk:
+            obj = User.objects.get(pk=self.pk)
+
+            if self.image != obj.image:
+                ImageUtils.remove_image_from(obj.image.path)
+
+        super().save(*args, **kwargs)
+
     def delete(self, *args, **kwargs) -> tuple[int, dict]:
         if "static" not in self.image.name:
             ImageUtils.remove_image_from(self.image.path)
@@ -84,4 +86,4 @@ class User(AbstractBaseUser):
         return super().delete(*args, **kwargs)
 
     class Meta:
-        db_table = "user"
+        db_table = "users"
