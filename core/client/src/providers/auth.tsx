@@ -98,7 +98,7 @@ export const GuestRoutes = () => {
 export const AuthorizedRoutes = () => {
   const { user } = useAuth();
   return user ? (
-    <Box>
+    <Box display="flex" flexDirection="column" height="100dvh">
       <Navbar />
       <Outlet />
     </Box>
