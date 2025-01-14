@@ -1,7 +1,7 @@
-import { Box } from '@mui/material';
+import Filter from '@/components/Filter';
 
 const Home = () => {
-  return <Box />;
+  return <Filter />;
 };
 
 export default Home;

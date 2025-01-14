@@ -6,6 +6,12 @@ declare global {
       email: string;
       image: string;
     }
+    interface Filter {
+      id: number;
+      name: string;
+      options: string[];
+      icon: string;
+    }
   }
   namespace request {
     interface Authorization {
