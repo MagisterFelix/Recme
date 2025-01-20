@@ -9,15 +9,24 @@ from core.server.serializers.category import CategorySerializer
 
 class LocationSerializer(ModelSerializer):
 
-    rating = SerializerMethodField(method_name="get_avg_rating")
+    rating = SerializerMethodField(method_name="get_rating")
 
     class Meta:
         model = Location
         fields = "__all__"
 
-    def get_avg_rating(self, location: Location) -> float | None:
+    def get_rating(self, location: Location) -> dict:
+        user = self.context["request"].user
+
         avg_rating = Review.objects.filter(location=location).aggregate(average=Avg("rating"))["average"]
-        return round(avg_rating, 2) if avg_rating is not None else None
+        user_rating = Review.objects.get_or_none(location=location, user=user)
+
+        data = {
+            "avg": round(avg_rating, 2) if avg_rating is not None else None,
+            "user": user_rating.rating if user_rating is not None else None
+        }
+
+        return data
 
     def to_representation(self, location: Location) -> OrderedDict:
         data = OrderedDict(super().to_representation(location))
