@@ -41,7 +41,7 @@ class UserManager(BaseUserManager, BaseManager[T]):
 
 class User(AbstractBaseUser):
 
-    DEFAULT_AVATAR_PATH = "../static/avatar-default-light.svg"
+    DEFAULT_AVATAR_PATH = "../static/avatar-default.svg"
 
     name = models.CharField(max_length=150, blank=False, null=False)
     email = models.EmailField(max_length=150, unique=True, blank=False, null=False)

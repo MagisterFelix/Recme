@@ -9,11 +9,18 @@ from core.server.serializers.category import CategorySerializer
 
 class LocationSerializer(ModelSerializer):
 
+    image = SerializerMethodField(method_name="get_image_url")
     rating = SerializerMethodField(method_name="get_rating")
 
     class Meta:
         model = Location
         fields = "__all__"
+
+    def get_image_url(self, location: Location) -> str:
+        if location.image and location.image.startswith("/static/"):
+            return self.context["request"].build_absolute_uri(location.image)
+
+        return location.image
 
     def get_rating(self, location: Location) -> dict:
         user = self.context["request"].user
