@@ -24,12 +24,12 @@ import {
   InputAdornment,
   Paper,
   TextField,
-  Typography,
 } from '@mui/material';
 
 import { useAxios } from '@/api/axios';
 import { ENDPOINTS } from '@/api/endpoints';
 import { ErrorData, handleErrors } from '@/api/errors';
+import History from '@/components/History';
 import { useAuth } from '@/hooks/auth';
 
 const Profile = () => {
@@ -170,18 +170,7 @@ const Profile = () => {
         <Grid size={{ xs: 12, md: 8 }} p={2}>
           <Paper elevation={6}>
             <Grid p={3}>
-              <Grid container>
-                <Typography
-                  display="flex"
-                  alignItems="center"
-                  fontSize="2rem"
-                  fontWeight="bold"
-                  margin="auto"
-                >
-                  User
-                </Typography>
-              </Grid>
-              <Grid mt={1} textAlign="right">
+              <Grid textAlign="right">
                 <Box component="form" autoComplete="off">
                   <Controller
                     name="name"
@@ -357,18 +346,7 @@ const Profile = () => {
         <Grid size={{ xs: 12, md: 4 }} p={2}>
           <Paper elevation={6}>
             <Grid p={3}>
-              <Grid container>
-                <Typography
-                  display="flex"
-                  alignItems="center"
-                  fontSize="2rem"
-                  fontWeight="bold"
-                  margin="auto"
-                >
-                  Password
-                </Typography>
-              </Grid>
-              <Grid mt={1} textAlign="right">
+              <Grid textAlign="right">
                 <Box component="form" autoComplete="off">
                   <Controller
                     name="password"
@@ -554,6 +532,11 @@ const Profile = () => {
                 </Box>
               </Grid>
             </Grid>
+          </Paper>
+        </Grid>
+        <Grid size={12} p={2}>
+          <Paper elevation={6}>
+            <History />
           </Paper>
         </Grid>
       </Grid>

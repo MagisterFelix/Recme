@@ -3,8 +3,9 @@ import { Controller, useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { Close, FilterAlt } from '@mui/icons-material';
-import { LoadingButton } from '@mui/lab';
 import {
+  Alert,
+  AlertColor,
   Box,
   Button,
   Dialog,
@@ -23,7 +24,11 @@ import {
 import { useAxios } from '@/api/axios';
 import { ENDPOINTS } from '@/api/endpoints';
 
-const Filter = () => {
+const Filter = ({
+  getRecommendations,
+}: {
+  getRecommendations: (params: object) => Promise<void>;
+}) => {
   const [searchParams] = useSearchParams();
 
   const navigate = useNavigate();
@@ -33,13 +38,31 @@ const Filter = () => {
     method: 'GET',
   });
 
-  const { control, setValue } = useForm();
+  const { control, setValue, handleSubmit } = useForm();
+  const [alert, setAlert] = useState<{
+    type: AlertColor;
+    message: string;
+  } | null>(null);
+  const handleOnSubmit = async (data: object) => {
+    setAlert(null);
+    const params = Object.entries(data).filter((entry) => entry[1] !== '');
+    if (params.length === 0) {
+      setAlert({
+        type: 'warning',
+        message: 'At least 1 filter must be selected.',
+      });
+    } else {
+      setShowFilters(false);
+      await getRecommendations(Object.fromEntries(params));
+    }
+  };
 
   const [showFilters, setShowFilters] = useState(false);
   const clearFilters = () => {
     filters?.forEach((filter) => {
       setValue(filter.name, '');
     });
+    setAlert(null);
     navigate('/');
   };
 
@@ -151,6 +174,11 @@ const Filter = () => {
               </Grid>
             ))}
           </Grid>
+          {alert && (
+            <Alert severity={alert.type} sx={{ textAlign: 'left', mt: 3 }}>
+              {alert.message}
+            </Alert>
+          )}
         </DialogContent>
         <DialogActions sx={{ m: 2 }}>
           <Button
@@ -164,16 +192,17 @@ const Filter = () => {
           >
             Clear
           </Button>
-          <LoadingButton
+          <Button
             type="submit"
             variant="contained"
             fullWidth
             sx={{
               maxWidth: 130,
             }}
+            onClick={handleSubmit((data: object) => handleOnSubmit(data))}
           >
             Apply
-          </LoadingButton>
+          </Button>
         </DialogActions>
       </Dialog>
     </Fragment>
