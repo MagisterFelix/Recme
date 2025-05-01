@@ -211,6 +211,7 @@ const Recommendation = ({
             max={2}
             size="large"
             disabled={loading}
+            readOnly={isLiked !== null}
             value={isLiked === false ? 1 : isLiked === true ? 2 : null}
             highlightSelectedOnly
             IconContainerComponent={({ value, ...other }) => {
