@@ -112,7 +112,7 @@ class RecommendationSystem:
                 for file in output_dir:
                     os.remove(f"output/{prefix}/{file}")
 
-        def save_output(x: list[str], y: list[float], params: dict) -> None:
+        def save_output(x: tuple[str], y: tuple[float], params: dict) -> None:
             best_val = max(y)
             best = [i for i, val in enumerate(y) if val == best_val]
 
