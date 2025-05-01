@@ -2,6 +2,7 @@ import math
 import os
 import pickle
 import re
+from pathlib import Path
 from typing import Self
 
 import matplotlib.pyplot as plt
@@ -39,6 +40,8 @@ class RecommendationSystem:
         return cls._instance
 
     def __init__(self, settings: Settings = default_settings) -> None:
+        os.chdir(Path(__file__).resolve().parent)
+
         config_handler.set_global(title_length=20, monitor_end=False, stats_end=False)
         torch.manual_seed(seed=42)
 
