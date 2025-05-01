@@ -181,6 +181,15 @@ assets/
 # Backup files
 *.bak
 
+# Recommendation system
+**/recommendation_system/output/
+**/recommendation_system/models/
+**/recommendation_system/data/*
+!**/recommendation_system/data/train_data.csv
+!**/recommendation_system/data/val_data.csv
+!**/recommendation_system/data/test_data.csv
+**/recommendation_system/test*
+
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
 #  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore

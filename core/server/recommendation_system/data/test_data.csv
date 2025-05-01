@@ -1,0 +1,71 @@
+name,category,rating,num_of_reviews,latitude,longitude,context,summary,recommend
+Park 1,Park,4,30,42,42,time: afternoon; season: spring; temperature: warm; weather: clear;,"kids, nature, calm",1
+Park 2,Park,4,100,42,42,time: morning; season: summer; temperature: hot; weather: clear;,"picnic, jog, outdoor",1
+Park 3,Park,5,30,42,42,time: night; season: autumn; temperature: warm; weather: rain;,"nature, relax, adult",0
+Park 4,Park,2,30,42,42,time: afternoon; season: autumn; temperature: warm; weather: cloudy;,"casual, nature, free",0
+Park 5,Park,5,30,42,42,time: afternoon; season: spring; temperature: warm; weather: clear;,"food, drinks, company",0
+Park 6,Park,4,1,42,42,time: morning; season: spring; temperature: warm; weather: clear;,"kids, nature, outdoor",0
+Park 7,Park,4,30,42,42,time: evening; season: summer; temperature: warm; weather: clear;,"quiet, calm, nature",1
+Restaurant 1,Restaurant,4,30,42,42,time: evening; season: autumn; temperature: warm; weather: clear;,"dinner, romantic, food",1
+Restaurant 2,Restaurant,4,100,42,42,time: night; season: winter; temperature: cold; weather: clear;,"fine dining, romantic, wine",1
+Restaurant 3,Restaurant,5,30,42,42,time: morning; season: winter; temperature: cold; weather: snow;,"brunch, casual, family",1
+Restaurant 4,Restaurant,2,30,42,42,time: evening; season: spring; temperature: warm; weather: cloudy;,"budget, local, quick meal",0
+Restaurant 5,Restaurant,5,30,42,42,time: evening; season: autumn; temperature: warm; weather: clear;,"outdoor, free, nature",0
+Restaurant 6,Restaurant,4,1,42,42,time: afternoon; season: summer; temperature: hot; weather: clear;,"family, buffet, comfort food",0
+Restaurant 7,Restaurant,4,30,42,42,time: night; season: spring; temperature: warm; weather: clear;,"food, music, drinks",1
+Bar 1,Bar,4,30,42,42,time: evening; season: summer; temperature: warm; weather: clear;,"drinks, music, chill",1
+Bar 2,Bar,4,100,42,42,time: night; season: autumn; temperature: warm; weather: cloudy;,"cocktails, dance, social",1
+Bar 3,Bar,5,30,42,42,time: evening; season: summer; temperature: warm; weather: rain;,"beer, snacks, lounge",1
+Bar 4,Bar,2,30,42,42,time: evening; season: spring; temperature: warm; weather: clear;,"happy hour, casual, cheap",0
+Bar 5,Bar,5,30,42,42,time: morning; season: summer; temperature: warm; weather: clear;,"park, playground, quiet",0
+Bar 6,Bar,4,1,42,42,time: night; season: spring; temperature: warm; weather: clear;,"whiskey, lounge, quiet",0
+Bar 7,Bar,4,30,42,42,time: evening; season: autumn; temperature: warm; weather: clear;,"live music, casual, drinks",1
+Club 1,Club,4,30,42,42,time: night; season: summer; temperature: hot; weather: clear;,"dance, music, party",1
+Club 2,Club,4,100,42,42,time: night; season: autumn; temperature: warm; weather: cloudy;,"DJ, drinks, crowd",1
+Club 3,Club,5,30,42,42,time: morning; season: winter; temperature: cold; weather: snow;,"late-night, dancefloor, lights",0
+Club 4,Club,2,30,42,42,time: night; season: spring; temperature: warm; weather: clear;,"budget, casual, entry-free",0
+Club 5,Club,5,30,42,42,time: morning; season: summer; temperature: hot; weather: clear;,"calm, park, playground",0
+Club 6,Club,4,1,42,42,time: night; season: spring; temperature: warm; weather: clear;,"VIP, cocktails, urban",0
+Club 7,Club,4,30,42,42,time: night; season: autumn; temperature: warm; weather: clear;,"drinks, dance, crowd",1
+Bakery 1,Bakery,4,30,42,42,time: morning; season: spring; temperature: warm; weather: clear;,"breakfast, casual, fresh",1
+Bakery 2,Bakery,4,100,42,42,time: morning; season: winter; temperature: cold; weather: snow;,"coffee, pastry, cozy",1
+Bakery 3,Bakery,5,30,42,42,time: afternoon; season: autumn; temperature: warm; weather: cloudy;,"inside, budget-friendly, food",1
+Bakery 4,Bakery,2,30,42,42,time: afternoon; season: summer; temperature: hot; weather: clear;,"quick, budget, local",0
+Bakery 5,Bakery,5,30,42,42,time: morning; season: spring; temperature: warm; weather: clear;,"playground, park, calm",0
+Bakery 6,Bakery,4,1,42,42,time: morning; season: winter; temperature: cold; weather: snow;,"coffee, warm, pastry",0
+Bakery 7,Bakery,4,30,42,42,time: afternoon; season: autumn; temperature: warm; weather: clear;,"budget-friendly, casual, coffee",1
+Tourist attraction 1,Tourist attraction,4,30,42,42,time: afternoon; season: spring; temperature: warm; weather: clear;,"kids, fun, outdoor",1
+Tourist attraction 2,Tourist attraction,4,100,42,42,time: morning; season: summer; temperature: hot; weather: clear;,"adventure, family, fun",1
+Tourist attraction 3,Tourist attraction,5,30,42,42,time: night; season: winter; temperature: cold; weather: snow;,"historical, sightseeing, romantic",0
+Tourist attraction 4,Tourist attraction,2,30,42,42,time: afternoon; season: autumn; temperature: warm; weather: cloudy;,"cheap, budget, quick visit",0
+Tourist attraction 5,Tourist attraction,5,30,42,42,time: afternoon; season: spring; temperature: warm; weather: clear;,"museum, educational, kids",0
+Tourist attraction 6,Tourist attraction,4,1,42,42,time: evening; season: winter; temperature: cold; weather: snow;,"art, historical, museum",0
+Tourist attraction 7,Tourist attraction,4,30,42,42,time: evening; season: spring; temperature: warm; weather: clear;,"sightseeing, cultural, outdoor",1
+Playground 1,Playground,4,30,42,42,time: afternoon; season: spring; temperature: warm; weather: clear;,"kids, family, fun",1
+Playground 2,Playground,4,100,42,42,time: morning; season: summer; temperature: hot; weather: clear;,"play, outdoor, energetic",1
+Playground 3,Playground,5,30,42,42,time: night; season: autumn; temperature: warm; weather: rain;,"safe, fun, family",0
+Playground 4,Playground,2,30,42,42,time: morning; season: winter; temperature: cold; weather: snow;,"small, limited, local",0
+Playground 5,Playground,5,30,42,42,time: afternoon; season: spring; temperature: warm; weather: clear;,"food, alcohol, drinks",0
+Playground 6,Playground,4,1,42,42,time: afternoon; season: autumn; temperature: warm; weather: clear;,"adventure, playground, family",0
+Playground 7,Playground,4,30,42,42,time: morning; season: summer; temperature: warm; weather: clear;,"park, family, kids",1
+Coffee Shop 1,Coffee Shop,4,30,42,42,time: morning; season: autumn; temperature: warm; weather: cloudy;,"coffee, quiet, study",1
+Coffee Shop 2,Coffee Shop,4,100,42,42,time: afternoon; season: spring; temperature: warm; weather: clear;,"chill, work, relax",1
+Coffee Shop 3,Coffee Shop,5,30,42,42,time: morning; season: winter; temperature: cold; weather: snow;,"cozy, breakfast, warm drinks",1
+Coffee Shop 4,Coffee Shop,2,30,42,42,time: afternoon; season: summer; temperature: hot; weather: clear;,"quick, takeout, budget",0
+Coffee Shop 5,Coffee Shop,5,30,42,42,time: morning; season: spring; temperature: warm; weather: clear;,"trip, family, hiking",0
+Coffee Shop 6,Coffee Shop,4,1,42,42,time: morning; season: autumn; temperature: warm; weather: clear;,"coffee, pastry, study",0
+Coffee Shop 7,Coffee Shop,4,30,42,42,time: afternoon; season: winter; temperature: cold; weather: snow;,"coffee, warm, cozy",1
+Beauty Salon 1,Beauty Salon,4,30,42,42,time: morning; season: spring; temperature: warm; weather: clear;,"facial, skincare, relax",1
+Beauty Salon 2,Beauty Salon,4,100,42,42,time: afternoon; season: summer; temperature: hot; weather: clear;,"haircut, styling, beauty",1
+Beauty Salon 3,Beauty Salon,5,30,42,42,time: morning; season: winter; temperature: cold; weather: snow;,"massage, relaxing, spa",1
+Beauty Salon 4,Beauty Salon,2,30,42,42,time: afternoon; season: autumn; temperature: warm; weather: cloudy;,"quick, affordable, casual",0
+Beauty Salon 5,Beauty Salon,5,30,42,42,time: evening; season: spring; temperature: cold; weather: clear;,"free, nature, outdoor",0
+Beauty Salon 6,Beauty Salon,4,1,42,42,time: morning; season: winter; temperature: cold; weather: snow;,"hair, professional, stylish",0
+Beauty Salon 7,Beauty Salon,4,30,42,42,time: afternoon; season: autumn; temperature: warm; weather: clear;,"makeup, beauty, pamper",1
+Cafe 1,Cafe,4,30,42,42,time: morning; season: spring; temperature: warm; weather: clear;,"coffee, chill, cozy",1
+Cafe 2,Cafe,4,100,42,42,time: afternoon; season: summer; temperature: hot; weather: clear;,"brunch, snacks, comfy",1
+Cafe 3,Cafe,5,30,42,42,time: morning; season: winter; temperature: cold; weather: snow;,"warm, quiet, relax",1
+Cafe 4,Cafe,2,30,42,42,time: afternoon; season: autumn; temperature: warm; weather: cloudy;,"basic, dull, small",0
+Cafe 5,Cafe,5,30,42,42,time: morning; season: spring; temperature: warm; weather: clear;,"outdoor, free, park",0
+Cafe 6,Cafe,4,1,42,42,time: morning; season: winter; temperature: cold; weather: snow;,"quick, simple, grab",0
+Cafe 7,Cafe,4,30,42,42,time: afternoon; season: autumn; temperature: warm; weather: clear;,"cozy, casual, chill",1
