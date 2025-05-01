@@ -61,9 +61,10 @@ const Filter = ({
   const clearFilters = () => {
     filters?.forEach((filter) => {
       setValue(filter.name, '');
+      searchParams.delete(filter.name);
     });
     setAlert(null);
-    navigate('/');
+    navigate(`?${decodeURIComponent(searchParams.toString())}`);
   };
 
   const [isLoaded, setIsLoaded] = useState(false);
@@ -72,12 +73,18 @@ const Filter = ({
     if (filters) {
       filters.forEach((filter) => {
         const value = searchParams.get(filter.name);
-        if (value && filter.options.includes(value)) {
+        if (value && filter.options.map(String).includes(value)) {
           setValue(filter.name, value);
         }
       });
     }
-    if (!isLoaded && filters && searchParams.size) {
+    if (
+      !isLoaded &&
+      filters &&
+      searchParams.has('latitude') &&
+      searchParams.has('longitude') &&
+      searchParams.size > 2
+    ) {
       setShowFilters(true);
       setIsLoaded(true);
     }
@@ -87,7 +94,10 @@ const Filter = ({
     <Fragment>
       <Fab
         color="primary"
-        disabled={!filters}
+        disabled={
+          !filters ||
+          (!searchParams.has('latitude') && !searchParams.has('longitude'))
+        }
         sx={{ position: 'absolute', bottom: 50, right: 50 }}
         onClick={() => setShowFilters(true)}
       >
