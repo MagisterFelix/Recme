@@ -1,13 +1,19 @@
 import { Fragment, useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
+import { AdvancedMarker, useMap } from '@vis.gl/react-google-maps';
+
 import { LocationDisabled, MyLocation } from '@mui/icons-material';
-import { Fab } from '@mui/material';
+import { Box, Fab } from '@mui/material';
+
+import position from '@/static/geolocation.svg';
 
 const Geolocation = () => {
   const [searchParams] = useSearchParams();
 
   const navigate = useNavigate();
+
+  const map = useMap();
 
   const [geolocation, setGeolocation] = useState<{
     latitude: number;
@@ -41,6 +47,10 @@ const Geolocation = () => {
   };
 
   useEffect(() => {
+    if (!map) {
+      return;
+    }
+
     if (searchParams.has('latitude') || searchParams.has('longitude')) {
       const latitude = Number(searchParams.get('latitude') || NaN);
       const longitude = Number(searchParams.get('longitude') || NaN);
@@ -52,23 +62,37 @@ const Geolocation = () => {
         longitude <= 180
       ) {
         setGeolocation({ latitude, longitude });
+        map.panTo({ lat: latitude, lng: longitude });
       } else {
         setGeolocation(null);
         navigate(`?${decodeURIComponent(new URLSearchParams().toString())}`);
       }
     }
-  }, [searchParams, navigate]);
+  }, [searchParams, navigate, map]);
 
   return (
     <Fragment>
       {geolocation ? (
-        <Fab
-          color="warning"
-          sx={{ position: 'absolute', bottom: 125, right: 50 }}
-          onClick={resetGeolocation}
-        >
-          <LocationDisabled />
-        </Fab>
+        <Fragment>
+          <Fab
+            color="warning"
+            sx={{ position: 'absolute', bottom: 125, right: 50 }}
+            onClick={resetGeolocation}
+          >
+            <LocationDisabled />
+          </Fab>
+          <AdvancedMarker
+            position={{ lat: geolocation.latitude, lng: geolocation.longitude }}
+          >
+            <Box
+              component="img"
+              src={position}
+              alt="position"
+              height={80}
+              width={80}
+            />
+          </AdvancedMarker>
+        </Fragment>
       ) : (
         <Fab
           color="primary"

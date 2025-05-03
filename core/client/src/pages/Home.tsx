@@ -5,7 +5,6 @@ import { LinearProgress } from '@mui/material';
 import { useAxios } from '@/api/axios';
 import { ENDPOINTS } from '@/api/endpoints';
 import Filter from '@/components/Filter';
-import Geolocation from '@/components/Geolocation';
 import Map from '@/components/Map';
 import Recommendation from '@/components/Recommendation';
 
@@ -40,7 +39,6 @@ const Home = () => {
           close={() => setSelectedRecommendations([])}
         />
       )}
-      <Geolocation />
       <Filter getRecommendations={getRecommendations} />
     </Fragment>
   );
