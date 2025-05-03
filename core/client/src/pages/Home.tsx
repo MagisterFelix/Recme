@@ -6,6 +6,7 @@ import { useAxios } from '@/api/axios';
 import { ENDPOINTS } from '@/api/endpoints';
 import Filter from '@/components/Filter';
 import Geolocation from '@/components/Geolocation';
+import Map from '@/components/Map';
 import Recommendation from '@/components/Recommendation';
 
 const Home = () => {
@@ -32,6 +33,7 @@ const Home = () => {
   return (
     <Fragment>
       {loadingRecommendations && <LinearProgress />}
+      <Map />
       {selectedRecommendations.length > 0 && (
         <Recommendation
           data={selectedRecommendations}
