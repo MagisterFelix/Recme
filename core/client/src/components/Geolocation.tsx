@@ -90,6 +90,10 @@ const Geolocation = () => {
               alt="position"
               height={80}
               width={80}
+              sx={{
+                filter:
+                  'drop-shadow(1px 0 0.5px black) drop-shadow(-1px 0 0.5px black) drop-shadow(0 1px 0.5px black) drop-shadow(0 -1px 0.5px black)',
+              }}
             />
           </AdvancedMarker>
         </Fragment>
