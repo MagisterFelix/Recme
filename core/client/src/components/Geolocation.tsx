@@ -63,6 +63,9 @@ const Geolocation = () => {
       ) {
         setGeolocation({ latitude, longitude });
         map.panTo({ lat: latitude, lng: longitude });
+        if (map.getZoom() != 18) {
+          map.setZoom(18);
+        }
       } else {
         setGeolocation(null);
         navigate(`?${decodeURIComponent(new URLSearchParams().toString())}`);

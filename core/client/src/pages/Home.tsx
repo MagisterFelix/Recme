@@ -9,6 +9,10 @@ import Map from '@/components/Map';
 import Recommendation from '@/components/Recommendation';
 
 const Home = () => {
+  const [recommendations, setRecommendations] = useState<
+    model.Recommendation[]
+  >([]);
+
   const [{ loading: loadingRecommendations }, request] = useAxios<
     model.Recommendation[]
   >(
@@ -22,21 +26,29 @@ const Home = () => {
   );
 
   const getRecommendations = async (params: object) => {
-    await request({ params });
+    setRecommendations([]);
+    const response = await request({ params });
+    setRecommendations(response.data);
   };
 
-  const [selectedRecommendations, setSelectedRecommendations] = useState<
-    model.Recommendation[]
-  >([]);
+  const [selectedRecommendation, setSelectedRecommendation] =
+    useState<model.Recommendation | null>(null);
+
+  const selectRecommendation = (recommendation: model.Recommendation) => {
+    setSelectedRecommendation(recommendation);
+  };
 
   return (
     <Fragment>
       {loadingRecommendations && <LinearProgress />}
-      <Map />
-      {selectedRecommendations.length > 0 && (
+      <Map
+        recommendations={recommendations}
+        selectRecommendation={selectRecommendation}
+      />
+      {selectedRecommendation && (
         <Recommendation
-          data={selectedRecommendations}
-          close={() => setSelectedRecommendations([])}
+          data={[selectedRecommendation]}
+          close={() => setSelectedRecommendation(null)}
         />
       )}
       <Filter getRecommendations={getRecommendations} />

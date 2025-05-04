@@ -1,10 +1,22 @@
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import { APIProvider, Map as GoogleMap } from '@vis.gl/react-google-maps';
+import {
+  AdvancedMarker,
+  APIProvider,
+  Map as GoogleMap,
+} from '@vis.gl/react-google-maps';
+
+import { Box } from '@mui/material';
 
 import Geolocation from '@/components/Geolocation';
 
-const Map = () => {
+const Map = ({
+  recommendations,
+  selectRecommendation,
+}: {
+  recommendations: model.Recommendation[] | undefined;
+  selectRecommendation: (recommendation: model.Recommendation) => void;
+}) => {
   const [searchParams] = useSearchParams();
 
   const navigate = useNavigate();
@@ -31,6 +43,29 @@ const Map = () => {
         onClick={(event) => pickGeolocation(event.detail.latLng!)}
       >
         <Geolocation />
+        {recommendations &&
+          recommendations.map((recommendation) => (
+            <AdvancedMarker
+              key={recommendation.id}
+              position={{
+                lat: recommendation.location.latitude,
+                lng: recommendation.location.longitude,
+              }}
+              onClick={() => selectRecommendation(recommendation)}
+            >
+              <Box
+                component="img"
+                src={recommendation.location.category.icon}
+                alt="category"
+                height={40}
+                width={40}
+                sx={{
+                  filter:
+                    'drop-shadow(1px 0 0.5px black) drop-shadow(-1px 0 0.5px black) drop-shadow(0 1px 0.5px black) drop-shadow(0 -1px 0.5px black)',
+                }}
+              />
+            </AdvancedMarker>
+          ))}
       </GoogleMap>
     </APIProvider>
   );
