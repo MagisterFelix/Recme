@@ -18,11 +18,8 @@ class Location(BaseModel):
     def __str__(self) -> str:
         return self.name
 
-    def save(self, *args, **kwargs) -> None:
-        if not self.image:
-            self.image = static("location-default.svg")
-
-        super().save(*args, **kwargs)
+    def get_image(self) -> str:
+        return self.image or static("location-default.svg")
 
     class Meta:
         db_table = "locations"

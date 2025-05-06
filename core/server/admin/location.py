@@ -8,7 +8,9 @@ from core.server.models import Location
 class LocationAdmin(admin.ModelAdmin):
 
     def preview(self, location: Location) -> str:
-        return format_html(f"<img src=\"{location.image}\" style=\"max-width: 128px; max-height: 128px\"/>")
+        if location.get_image().startswith("/static/"):
+            return format_html(f"<img src=\"{location.get_image()}\" style=\"width: 128px; height: 128px\"/>")
+        return format_html(f"<img src=\"{location.get_image()}\" style=\"max-width: 128px; max-height: 128px\"/>")
 
     fieldsets = (
         (None, {

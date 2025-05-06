@@ -17,10 +17,7 @@ class LocationSerializer(ModelSerializer):
         fields = "__all__"
 
     def get_image_url(self, location: Location) -> str:
-        if location.image and location.image.startswith("/static/"):
-            return self.context["request"].build_absolute_uri(location.image)
-
-        return location.image
+        return self.context["request"].build_absolute_uri(location.get_image())
 
     def get_rating(self, location: Location) -> dict:
         user = self.context["request"].user
