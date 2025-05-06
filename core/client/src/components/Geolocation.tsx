@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { AdvancedMarker, useMap } from '@vis.gl/react-google-maps';
@@ -8,12 +8,18 @@ import { Box, Fab } from '@mui/material';
 
 import position from '@/static/geolocation.svg';
 
-const Geolocation = () => {
+const Geolocation = ({
+  loadingRecommendations,
+}: {
+  loadingRecommendations: boolean;
+}) => {
   const [searchParams] = useSearchParams();
 
   const navigate = useNavigate();
 
   const map = useMap();
+
+  const circleRef = useRef<google.maps.Circle | null>(null);
 
   const [geolocation, setGeolocation] = useState<{
     latitude: number;
@@ -73,18 +79,93 @@ const Geolocation = () => {
     }
   }, [searchParams, navigate, map]);
 
+  useEffect(() => {
+    if (!map || !geolocation) {
+      return;
+    }
+
+    if (circleRef.current) {
+      circleRef.current.setMap(null);
+      circleRef.current = null;
+    }
+
+    if (!loadingRecommendations) {
+      return;
+    }
+
+    map.panTo({ lat: geolocation.latitude, lng: geolocation.longitude });
+    if (map.getZoom() != 15) {
+      map.setZoom(15);
+    }
+
+    const circleOptions: google.maps.CircleOptions = {
+      map: map,
+      center: { lat: geolocation.latitude, lng: geolocation.longitude },
+      radius: 1000,
+      strokeColor: '#0c4cb3',
+      strokeOpacity: 0.8,
+      strokeWeight: 3,
+      fillColor: '#3b82f6',
+      fillOpacity: 0.2,
+    };
+
+    circleRef.current = new google.maps.Circle(circleOptions);
+
+    let opacity = 0;
+    let direction = 1;
+    const step = 0.01;
+    const minOpacity = 0.2;
+    const maxOpacity = 0.5;
+
+    const animate = () => {
+      if (!circleRef.current) {
+        return;
+      }
+
+      opacity += direction * step;
+
+      if (opacity >= maxOpacity) {
+        opacity = maxOpacity;
+        direction = -1;
+      } else if (opacity <= minOpacity) {
+        opacity = minOpacity;
+        direction = 1;
+      }
+
+      circleRef.current.setOptions({ fillOpacity: opacity });
+
+      requestAnimationFrame(animate);
+    };
+
+    animate();
+
+    return () => {
+      map.panTo({ lat: geolocation.latitude, lng: geolocation.longitude });
+      if (map.getZoom() != 15) {
+        map.setZoom(15);
+      }
+
+      if (circleRef.current) {
+        circleRef.current.setMap(null);
+        circleRef.current = null;
+      }
+    };
+  }, [map, geolocation, loadingRecommendations]);
+
   return (
     <Fragment>
       {geolocation ? (
         <Fragment>
           <Fab
             color="warning"
+            disabled={loadingRecommendations}
             sx={{ position: 'absolute', bottom: 125, right: 50 }}
             onClick={resetGeolocation}
           >
             <LocationDisabled />
           </Fab>
           <AdvancedMarker
+            anchorPoint={['50%', '70%']}
             position={{ lat: geolocation.latitude, lng: geolocation.longitude }}
           >
             <Box
@@ -103,6 +184,7 @@ const Geolocation = () => {
       ) : (
         <Fab
           color="primary"
+          disabled={loadingRecommendations}
           sx={{ position: 'absolute', bottom: 125, right: 50 }}
           onClick={getGeolocation}
         >

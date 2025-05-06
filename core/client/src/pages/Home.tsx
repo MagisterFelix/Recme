@@ -1,4 +1,5 @@
 import { Fragment, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import { LinearProgress } from '@mui/material';
 
@@ -9,6 +10,8 @@ import Map from '@/components/Map';
 import Recommendation from '@/components/Recommendation';
 
 const Home = () => {
+  const [searchParams] = useSearchParams();
+
   const [recommendations, setRecommendations] = useState<
     model.Recommendation[]
   >([]);
@@ -25,8 +28,13 @@ const Home = () => {
     }
   );
 
-  const getRecommendations = async (params: object) => {
+  const getRecommendations = async (data: object) => {
     setRecommendations([]);
+    const params = {
+      latitude: searchParams.get('latitude'),
+      longitude: searchParams.get('longitude'),
+      ...data,
+    };
     const response = await request({ params });
     setRecommendations(response.data);
   };
@@ -44,6 +52,7 @@ const Home = () => {
       <Map
         recommendations={recommendations}
         selectRecommendation={selectRecommendation}
+        loadingRecommendations={loadingRecommendations}
       />
       {selectedRecommendation && (
         <Recommendation
@@ -51,7 +60,10 @@ const Home = () => {
           close={() => setSelectedRecommendation(null)}
         />
       )}
-      <Filter getRecommendations={getRecommendations} />
+      <Filter
+        getRecommendations={getRecommendations}
+        loadingRecommendations={loadingRecommendations}
+      />
     </Fragment>
   );
 };

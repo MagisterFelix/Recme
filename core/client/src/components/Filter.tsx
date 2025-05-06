@@ -25,8 +25,10 @@ import { useAxios } from '@/api/axios';
 import { ENDPOINTS } from '@/api/endpoints';
 
 const Filter = ({
+  loadingRecommendations,
   getRecommendations,
 }: {
+  loadingRecommendations: boolean;
   getRecommendations: (params: object) => Promise<void>;
 }) => {
   const [searchParams] = useSearchParams();
@@ -96,7 +98,8 @@ const Filter = ({
         color="primary"
         disabled={
           !filters ||
-          (!searchParams.has('latitude') && !searchParams.has('longitude'))
+          (!searchParams.has('latitude') && !searchParams.has('longitude')) ||
+          loadingRecommendations
         }
         sx={{ position: 'absolute', bottom: 50, right: 50 }}
         onClick={() => setShowFilters(true)}

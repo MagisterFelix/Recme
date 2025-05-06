@@ -12,9 +12,11 @@ import Geolocation from '@/components/Geolocation';
 
 const Map = ({
   recommendations,
+  loadingRecommendations,
   selectRecommendation,
 }: {
   recommendations: model.Recommendation[] | undefined;
+  loadingRecommendations: boolean;
   selectRecommendation: (recommendation: model.Recommendation) => void;
 }) => {
   const [searchParams] = useSearchParams();
@@ -40,9 +42,13 @@ const Map = ({
         defaultCenter={{ lat: 50.0152484, lng: 36.227357 }}
         defaultZoom={18}
         disableDefaultUI
-        onClick={(event) => pickGeolocation(event.detail.latLng!)}
+        onClick={(event) => {
+          if (!loadingRecommendations) {
+            pickGeolocation(event.detail.latLng!);
+          }
+        }}
       >
-        <Geolocation />
+        <Geolocation loadingRecommendations={loadingRecommendations} />
         {recommendations &&
           recommendations.map((recommendation) => (
             <AdvancedMarker
