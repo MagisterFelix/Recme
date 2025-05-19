@@ -2,10 +2,10 @@ from typing import Generic, TypeVar
 
 from django.db import models
 
-T = TypeVar("T")
+T = TypeVar("T", bound=models.Model)
 
 
-class BaseManager(models.Manager, Generic[T]):
+class BaseManager(models.Manager[T], Generic[T]):
 
     def get_or_none(self, *args, **kwargs) -> T | None:
         try:
