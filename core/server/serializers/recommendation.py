@@ -1,8 +1,10 @@
 from collections import OrderedDict
 
+from django.db.models import Avg, Count
 from rest_framework.serializers import ModelSerializer, SerializerMethodField, ValidationError
 
-from core.server.models import Condition, Preference, Recommendation
+from core.server.models import Condition, Preference, Recommendation, Review
+from core.server.recommendation_system import recommendation_system
 from core.server.serializers.location import LocationSerializer
 from core.server.serializers.user import UserSerializer
 
@@ -41,6 +43,35 @@ class RecommendationSerializer(ModelSerializer):
             raise ValidationError("Only the 'is_liked' field can be updated.")
 
         return super().validate(attrs)
+
+    def update(self, recommendation: Recommendation, validated_data: dict) -> Recommendation:
+        reviews = Review.objects.filter(location=recommendation.location).aggregate(
+            review_count=Count("id"),
+            average_rating=Avg("rating")
+        )
+
+        preferences = Preference.objects.filter(recommendation=recommendation)
+        conditions = Condition.objects.filter(recommendation=recommendation)
+
+        summary = ", ".join(map(lambda item: item.choice, preferences)).lower()
+        context = "; ".join(map(lambda item: f"{item.context.name}: {item.choice}", conditions)).lower()
+
+        data = {
+            "id": recommendation.location.pk,
+            "name": recommendation.location.name,
+            "category": recommendation.location.category.name,
+            "rating": reviews["average_rating"],
+            "num_of_reviews": reviews["review_count"],
+            "latitude": recommendation.location.latitude,
+            "longitude": recommendation.location.longitude,
+            "context": context,
+            "summary": summary,
+            "recommend": 1 if validated_data["is_liked"] else 0
+        }
+
+        recommendation_system.fine_tune(data)
+
+        return super().update(recommendation, validated_data)
 
     def to_representation(self, recommendation: Recommendation) -> OrderedDict:
         data = OrderedDict(super().to_representation(recommendation))
