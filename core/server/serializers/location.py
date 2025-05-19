@@ -1,6 +1,6 @@
 from collections import OrderedDict
 
-from django.db.models import Avg
+from django.db.models import Avg, Count
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
 from core.server.models import Location, Review
@@ -22,10 +22,17 @@ class LocationSerializer(ModelSerializer):
     def get_rating(self, location: Location) -> dict:
         user = self.context["request"].user
 
-        avg_rating = Review.objects.filter(location=location).aggregate(average=Avg("rating"))["average"]
+        reviews = Review.objects.filter(location=location).aggregate(
+            review_count=Count("id"),
+            average_rating=Avg("rating")
+        )
+
+        num_of_reviews = reviews["review_count"]
+        avg_rating = reviews["average_rating"]
         user_rating = Review.objects.get_or_none(location=location, user=user)
 
         data = {
+            "cnt": num_of_reviews if num_of_reviews is not None else None,
             "avg": round(avg_rating, 2) if avg_rating is not None else None,
             "user": user_rating.rating if user_rating is not None else None
         }

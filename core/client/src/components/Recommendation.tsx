@@ -147,10 +147,18 @@ const Recommendation = ({
             </Box>
           </Grid>
           <Grid size={12}>
-            <Typography variant="subtitle2">Rating:</Typography>
+            <Typography variant="subtitle2">
+              Rating ({data[currentRecommendation].location.rating.cnt} review
+              {data[currentRecommendation].location.rating.cnt &&
+              data[currentRecommendation].location.rating.cnt > 1
+                ? 's'
+                : ''}
+              ):
+            </Typography>
             <Rating
-              size="large"
+              size="medium"
               value={data[currentRecommendation].location.rating.avg}
+              precision={0.5}
               readOnly
             />
           </Grid>

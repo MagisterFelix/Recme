@@ -21,6 +21,7 @@ declare global {
       id: number;
       image: string;
       rating: {
+        cnt: number | null;
         avg: number | null;
         user: number | null;
       };
