@@ -143,8 +143,8 @@ class RecommendationListView(ListAPIView):
                 "category": location.category.name,
                 "rating": reviews["average_rating"],
                 "num_of_reviews": reviews["review_count"],
-                "latitude": latitude,
-                "longitude": longitude,
+                "latitude": location.latitude,
+                "longitude": location.longitude,
                 "context": context,
                 "summary": summary
             })
