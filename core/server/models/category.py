@@ -25,7 +25,7 @@ class Category(BaseModel):
         if self.pk:
             obj = Category.objects.get(pk=self.pk)
 
-            if self.icon != obj.icon:
+            if self.icon != obj.icon and "static" not in obj.icon.name:
                 ImageUtils.remove_image_from(obj.icon.path)
 
         super().save(*args, **kwargs)

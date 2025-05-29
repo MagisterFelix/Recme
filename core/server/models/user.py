@@ -74,7 +74,7 @@ class User(AbstractBaseUser):
         if self.pk:
             obj = User.objects.get(pk=self.pk)
 
-            if self.image != obj.image:
+            if self.image != obj.image and "static" not in obj.image.name:
                 ImageUtils.remove_image_from(obj.image.path)
 
         super().save(*args, **kwargs)
