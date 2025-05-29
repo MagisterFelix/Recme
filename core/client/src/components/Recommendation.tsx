@@ -100,23 +100,27 @@ const Recommendation = ({
           <Grid size={12}>
             <Typography variant="subtitle2">Filters:</Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, py: 1 }}>
-              {data
-                .flatMap((item) => [
-                  ...item.filters.conditions.map(
-                    (condition) => `${condition.context}: ${condition.choice}`
-                  ),
-                  ...item.filters.preferences.map(
-                    (preference) => `${preference.filter}: ${preference.choice}`
-                  ),
-                ])
-                .map((filter, index) => (
-                  <Chip
-                    key={`filter-${index}`}
-                    label={filter}
-                    color="primary"
-                    size="small"
-                  />
-                ))}
+              {[
+                ...data[currentRecommendation].filters.conditions.map(
+                  (condition) => ({
+                    type: 'condition',
+                    value: `${condition.context}: ${condition.choice}`,
+                  })
+                ),
+                ...data[currentRecommendation].filters.preferences.map(
+                  (preference) => ({
+                    type: 'preference',
+                    value: `${preference.filter}: ${preference.choice}`,
+                  })
+                ),
+              ].map((filter, index) => (
+                <Chip
+                  key={`filter-${index}`}
+                  label={filter.value}
+                  color={filter.type == 'preference' ? 'primary' : 'warning'}
+                  size="small"
+                />
+              ))}
             </Box>
           </Grid>
           <Grid size={12}>

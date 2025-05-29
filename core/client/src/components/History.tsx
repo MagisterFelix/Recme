@@ -25,12 +25,14 @@ const History = () => {
         rows={history?.map((item, index) => ({
           id: index,
           filters: [
-            ...item.filters.conditions.map(
-              (condition) => `${condition.context}: ${condition.choice}`
-            ),
-            ...item.filters.preferences.map(
-              (preference) => `${preference.filter}: ${preference.choice}`
-            ),
+            ...item.filters.conditions.map((condition) => ({
+              type: 'condition',
+              value: `${condition.context}: ${condition.choice}`,
+            })),
+            ...item.filters.preferences.map((preference) => ({
+              type: 'preference',
+              value: `${preference.filter}: ${preference.choice}`,
+            })),
           ],
           recommendations: item.recommendations.length,
         }))}
@@ -40,16 +42,28 @@ const History = () => {
             headerName: 'Filters',
             flex: 3,
             sortable: false,
+            getApplyQuickFilterFn: (filterValue: string) => {
+              const search = filterValue.toLowerCase();
+              return (row) => {
+                return row.some((filter: { type: string; value: string }) =>
+                  filter.value.toLowerCase().includes(search)
+                );
+              };
+            },
             renderCell: (params) => (
               <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, py: 1 }}>
-                {params.value.map((filter: string, index: number) => (
-                  <Chip
-                    key={`data-grid-filter-${index}`}
-                    label={filter}
-                    color="primary"
-                    size="small"
-                  />
-                ))}
+                {params.value.map(
+                  (filter: { type: string; value: string }, index: number) => (
+                    <Chip
+                      key={`data-grid-filter-${index}`}
+                      label={filter.value}
+                      color={
+                        filter.type == 'preference' ? 'primary' : 'warning'
+                      }
+                      size="small"
+                    />
+                  )
+                )}
               </Box>
             ),
           },
