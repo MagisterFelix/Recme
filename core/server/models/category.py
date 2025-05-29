@@ -7,8 +7,11 @@ from .base import BaseManager, BaseModel
 
 class Category(BaseModel):
 
+    DEFAULT_CATEGORY_PATH = "../static/category-default.svg"
+
     name = models.CharField(max_length=64, unique=True)
     icon = models.FileField(
+        default=DEFAULT_CATEGORY_PATH,
         upload_to=ImageUtils.upload_image_to,
         validators=[ImageUtils.validate_image_file_extension]
     )
