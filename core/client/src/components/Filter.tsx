@@ -129,7 +129,7 @@ const Filter = ({
         <DialogContent>
           <Grid container spacing={3}>
             {filters?.map((filter) => (
-              <Grid key={filter.id} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+              <Grid key={filter.id} size={{ xs: 12, sm: 6 }}>
                 <Controller
                   name={filter.name}
                   control={control}
