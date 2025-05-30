@@ -14,6 +14,7 @@ from rest_framework.response import Response
 from core.server.models import Condition, Context, Filter, Location, Preference, Recommendation, Review
 from core.server.recommendation_system import recommendation_system
 from core.server.serializers import RecommendationSerializer
+from core.server.utils import GoogleDataUtils
 
 
 class RecommendationListView(ListAPIView):
@@ -121,6 +122,8 @@ class RecommendationListView(ListAPIView):
         summary = ", ".join(map(str, filters_data.values())).lower()
         context = "; ".join(map(lambda item: f"{item[0]}: {item[1]}", context_data.items())).lower()
 
+        GoogleDataUtils.get_nearby_places(latitude=latitude, longitude=longitude)
+
         locations = Location.objects.annotate(
             distance=RawSQL(
                 "6371 * acos(cos(radians(%s)) * cos(radians(latitude)) * cos(radians(longitude)\
@@ -128,6 +131,8 @@ class RecommendationListView(ListAPIView):
                 [latitude, longitude, latitude]
             )
         ).filter(Q(distance__lte=1))
+
+        google_reviews = GoogleDataUtils.load_google_reviews()
 
         data = []
 
@@ -137,12 +142,24 @@ class RecommendationListView(ListAPIView):
                 average_rating=Avg("rating")
             )
 
+            google_review = GoogleDataUtils.get_google_review(google_reviews, location.pk)
+
+            total_reviews = reviews["review_count"] + google_review["num_of_reviews"]
+
+            if total_reviews > 0:
+                weighted_rating = (
+                    (reviews["average_rating"] or 0) * reviews["review_count"] +
+                    (google_review["rating"] or 0) * google_review["num_of_reviews"]
+                ) / total_reviews
+            else:
+                weighted_rating = 0
+
             data.append({
                 "id": location.pk,
                 "name": location.name,
                 "category": location.category.name,
-                "rating": reviews["average_rating"],
-                "num_of_reviews": reviews["review_count"],
+                "rating": weighted_rating,
+                "num_of_reviews": total_reviews,
                 "latitude": location.latitude,
                 "longitude": location.longitude,
                 "context": context,

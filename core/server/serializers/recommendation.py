@@ -7,6 +7,7 @@ from core.server.models import Condition, Preference, Recommendation, Review
 from core.server.recommendation_system import recommendation_system
 from core.server.serializers.location import LocationSerializer
 from core.server.serializers.user import UserSerializer
+from core.server.utils import GoogleDataUtils
 
 
 class RecommendationSerializer(ModelSerializer):
@@ -56,12 +57,25 @@ class RecommendationSerializer(ModelSerializer):
         summary = ", ".join(map(lambda item: item.choice, preferences)).lower()
         context = "; ".join(map(lambda item: f"{item.context.name}: {item.choice}", conditions)).lower()
 
+        google_reviews = GoogleDataUtils.load_google_reviews()
+        google_review = GoogleDataUtils.get_google_review(google_reviews, recommendation.location.pk)
+
+        total_reviews = reviews["review_count"] + google_review["num_of_reviews"]
+
+        if total_reviews > 0:
+            weighted_rating = (
+                (reviews["average_rating"] or 0) * reviews["review_count"] +
+                (google_review["rating"] or 0) * google_review["num_of_reviews"]
+            ) / total_reviews
+        else:
+            weighted_rating = 0
+
         data = {
             "id": recommendation.location.pk,
             "name": recommendation.location.name,
             "category": recommendation.location.category.name,
-            "rating": reviews["average_rating"],
-            "num_of_reviews": reviews["review_count"],
+            "rating": weighted_rating,
+            "num_of_reviews": total_reviews,
             "latitude": recommendation.location.latitude,
             "longitude": recommendation.location.longitude,
             "context": context,

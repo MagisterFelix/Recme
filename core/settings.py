@@ -15,6 +15,8 @@ CLIENT_BUILD_DIR = CLIENT_DIR / "build"
 
 SECRET_KEY = config("DJANGO_SECRET_KEY")
 
+GOOGLE_MAPS_API_KEY = config("GOOGLE_MAPS_API_KEY")
+
 DEBUG = config("DJANGO_DEBUG", default=False, cast=bool)
 
 ALLOWED_HOSTS = config("DJANGO_ALLOWED_HOSTS", default=[], cast=Csv())
