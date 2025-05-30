@@ -48,3 +48,4 @@ class Filter(BaseModel):
 
     class Meta:
         db_table = "filters"
+        verbose_name_plural = "filters"

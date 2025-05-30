@@ -38,3 +38,4 @@ class Category(BaseModel):
 
     class Meta:
         db_table = "categories"
+        verbose_name_plural = "categories"

@@ -30,3 +30,4 @@ class Condition(BaseModel):
 
     class Meta:
         db_table = "conditions"
+        verbose_name_plural = "conditions"

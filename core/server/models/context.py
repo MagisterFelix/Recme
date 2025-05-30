@@ -34,4 +34,5 @@ class Context(BaseModel):
             raise ValidationError(errors, code="invalid")
 
     class Meta:
-        db_table = "contexts"
+        db_table = "context"
+        verbose_name_plural = "context"

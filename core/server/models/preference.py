@@ -30,3 +30,4 @@ class Preference(BaseModel):
 
     class Meta:
         db_table = "preferences"
+        verbose_name_plural = "preferences"

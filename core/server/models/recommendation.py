@@ -19,3 +19,4 @@ class Recommendation(BaseModel):
 
     class Meta:
         db_table = "recommendations"
+        verbose_name_plural = "recommendations"

@@ -23,3 +23,4 @@ class Location(BaseModel):
 
     class Meta:
         db_table = "locations"
+        verbose_name_plural = "locations"
