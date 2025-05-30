@@ -12,6 +12,7 @@ matplotlib==3.10.1
 nltk==3.9.1
 pandas==2.2.3
 platformdirs==4.2.2
+psycopg2-binary==2.9.10
 python-decouple==3.8
 requests==2.32.3
 scikit-learn==1.6.1
