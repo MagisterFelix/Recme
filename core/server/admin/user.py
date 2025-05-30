@@ -1,12 +1,12 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth import admin as auth_admin
 from django.utils.html import format_html
 
 from core.server.models import User
 
 
 @admin.register(User)
-class UserAdmin(UserAdmin):
+class UserAdmin(auth_admin.UserAdmin):
 
     def avatar(self, user: User) -> str:
         return format_html(f"<img src=\"{user.image.url}\" style=\"max-width: 128px; max-height: 128px\"/>")
