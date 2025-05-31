@@ -71,7 +71,7 @@ const Recommendation = ({
       },
       data: reqData,
     });
-    data[currentRecommendation] = response.data;
+    data[currentRecommendation].is_liked = response.data.is_liked;
   };
 
   return (
