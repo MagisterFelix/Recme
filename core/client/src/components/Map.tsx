@@ -36,6 +36,7 @@ const Map = ({
           ? ''
           : import.meta.env.VITE_GOOGLE_MAP_API_KEY
       }
+      language="en"
     >
       <GoogleMap
         mapId={'GOOGLE_MAP_ID'}
