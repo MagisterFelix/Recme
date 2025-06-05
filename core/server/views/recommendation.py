@@ -190,6 +190,9 @@ class RecommendationListView(ListAPIView):
                     recommendation = ex_recommendation
                     break
 
+            if recommendation is not None and recommendation.is_liked is not None and not recommendation.is_liked:
+                continue
+
             if recommendation is None:
                 with transaction.atomic():
                     recommendation = Recommendation.objects.create(user=user, location=location)
